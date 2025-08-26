@@ -1,22 +1,35 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simple validation
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    // console.log(email, password);
     if (!email || !password) {
       setError("Please enter both email and password.");
       return;
     }
     setError("");
-    // TODO: Add authentication logic here
-    alert("Login successful!");
+    // NextAuth credentials login
+    const res = await signIn("credentials", {
+      redirect: true,
+      email,
+      password,
+      callbackUrl: "/products",
+    });
+    // Error handling (NextAuth will redirect on success)
+    if (res?.error) {
+      setError(res.error);
+    }
   };
 
   return (
@@ -35,6 +48,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            name="email"
             placeholder="Enter Your Email"
           />
         </div>
@@ -46,12 +60,13 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            name="password"
             placeholder="Enter Your Password"
           />
         </div>
         <button
           type="submit"
-          className="w-full bg-[#FF324D] text-white py-2 rounded-full font-semibold hover:bg-[#e02e42] transition mb-4"
+          className="w-full bg-[#FF324D] cursor-pointer text-white py-2 rounded-full font-semibold hover:bg-[#e02e42] transition mb-4"
         >
           Login
         </button>
@@ -62,11 +77,8 @@ export default function LoginPage() {
         </div>
         <button
           type="button"
-          className="w-full flex items-center justify-center gap-2  border-[#FF324D] border-2 py-2 rounded-full font-semibold bg-white cursor-pointer hover:bg-gray-100 transition"
-          onClick={() =>
-            (window.location.href =
-              "https://accounts.google.com/o/oauth2/v2/auth")
-          }
+          className="w-full flex items-center justify-center gap-2 border-[#FF324D] border-2 py-2 rounded-full font-semibold bg-white cursor-pointer hover:bg-gray-100 transition"
+          onClick={() => signIn("google", { callbackUrl: "/products" })}
         >
           <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
             <g>
@@ -80,7 +92,7 @@ export default function LoginPage() {
               />
               <path
                 fill="#FBBC05"
-                d="M10.04 28.71c-.56-1.67-.88-3.45-.88-5.21s.32-3.54.88-5.21l-8.06-6.27C.64 15.87 0 19.82 0 24c0 4.18.64 8.13 1.98 11.98l8.06-6.27z"
+                d="M10.04 28.71c-.56-1.67-.88-3.45-.88-5.21s.32-3.54.88-5.21l-8.06-6.27C.64 15.87 0 19.82 0 24c0 4.18.64 8.13 1.98 11.98l8.06 6.27z"
               />
               <path
                 fill="#EA4335"

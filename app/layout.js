@@ -12,7 +12,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Next Shop",
+  title: "Shop Nest",
   description: "Create by Next.js",
 };
 
@@ -20,11 +20,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
-  <Navbar />
-  <RouteLoader />
-  <main>{children}</main>
-  <ToastContainer position="top-center" autoClose={2000} />
-  <Footer />
+        <Navbar />
+        <RouteLoader />
+        <main>{children}</main>
+        <ToastContainer position="top-center" autoClose={2000} />
+        <Footer />
       </body>
     </html>
   );

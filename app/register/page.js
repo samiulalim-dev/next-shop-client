@@ -2,22 +2,52 @@
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
       setError("Please fill in all fields.");
       return;
     }
     setError("");
-    // TODO: Add registration logic here
-    toast.success("Registration successful!");
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Registration successful! Logging in...");
+        setName("");
+        setEmail("");
+        setPassword("");
+        // Auto-login after registration
+        setTimeout(() => {
+          signIn("credentials", {
+            redirect: true,
+            email,
+            password,
+            callbackUrl: "/products",
+          });
+        }, 1200);
+      } else {
+        setError(data.error || "Registration failed.");
+        toast.error(data.error || "Registration failed.");
+      }
+    } catch (err) {
+      setError("Registration failed.");
+      toast.error("Registration failed.");
+    }
   };
 
   return (
@@ -63,7 +93,7 @@ export default function RegisterPage() {
         </div>
         <button
           type="submit"
-          className="w-full bg-[#FF324D] text-white py-2 rounded-full font-semibold hover:bg-[#e02e42] transition"
+          className="w-full cursor-pointer bg-[#FF324D] text-white py-2 rounded-full font-semibold hover:bg-[#e02e42] transition"
         >
           Register
         </button>
@@ -75,10 +105,7 @@ export default function RegisterPage() {
         <button
           type="button"
           className="w-full flex items-center justify-center gap-2  border-[#FF324D] border-2 py-2 rounded-full font-semibold bg-white cursor-pointer hover:bg-gray-100 transition"
-          onClick={() =>
-            (window.location.href =
-              "https://accounts.google.com/o/oauth2/v2/auth")
-          }
+          onClick={() => signIn("google", { callbackUrl: "/products" })}
         >
           <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
             <g>
@@ -100,7 +127,7 @@ export default function RegisterPage() {
               />
             </g>
           </svg>
-          Login with Google
+          Register with Google
         </button>
         <span className="flex text-sm items-center justify-center mt-4 ">
           Already have an account ?{" "}
