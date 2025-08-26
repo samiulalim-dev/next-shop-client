@@ -1,17 +1,18 @@
 import Link from "next/link";
 import Navbar from "./Components/Navbar/Navbar/Navbar";
+import BannerSlider from "./Components/Navbar/Banner/Banner";
 
 export default function HomePage() {
   return (
-    <div className=" flex flex-col">
+    <div className="">
       {/* Navbar */}
       <Navbar></Navbar>
 
       {/* Hero Section */}
-
+      <BannerSlider></BannerSlider>
       {/* Product Highlights */}
       <section className="max-w-6xl mx-auto px-6 py-16">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-8 text-center">
+        <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-8 text-center">
           Product Highlights
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
