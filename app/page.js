@@ -1,12 +1,10 @@
 import Link from "next/link";
-import Navbar from "./Components/Navbar/Navbar/Navbar";
 import BannerSlider from "./Components/Navbar/Banner/Banner";
 
 export default function HomePage() {
   return (
     <div className="">
       {/* Navbar */}
-      <Navbar></Navbar>
 
       {/* Hero Section */}
       <BannerSlider></BannerSlider>
@@ -37,11 +35,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-200 py-6 text-center">
-        <p>© {new Date().getFullYear()} NextShop. All rights reserved.</p>
-      </footer>
     </div>
   );
 }

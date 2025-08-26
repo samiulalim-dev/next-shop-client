@@ -31,7 +31,7 @@ export default function BannerSlider() {
       interval={3000}
     >
       {slides.map((slide, i) => (
-        <div key={i} className="h-64 md:h-[450px] w-full bg-gray-100   ">
+        <div key={i} className="h-64 md:h-[450px] w-full bg-slate-100   ">
           {/* Text */}
           <div className="flex items-center justify-between  w-11/12 mx-auto">
             <div className=" text-left text-black ">

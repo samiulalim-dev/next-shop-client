@@ -14,7 +14,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-1">
           <MdOutlineShoppingCart className="text-5xl text-[#FF324D]" />
-          <h1 className="text-3xl font-bold text-black">NextShop</h1>
+          <h1 className="text-3xl font-bold text-black">ShopNest</h1>
         </Link>
 
         {/* Desktop Menu */}
