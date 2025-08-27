@@ -88,11 +88,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-      {/* Bottom Bar */}
-      <div className="border-t border-gray-700 mt-8 py-4 text-center text-gray-500 text-sm">
-        &copy; {new Date().getFullYear()} ShopNest. All rights reserved.
-      </div>
     </footer>
   );
 }
